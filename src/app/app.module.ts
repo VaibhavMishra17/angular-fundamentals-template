@@ -8,7 +8,7 @@ import { CoursesModule } from "./features/courses/courses.module";
 import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, InfoComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [BrowserModule, CoursesModule, SharedModule],
   providers: [],
   bootstrap: [AppComponent],
