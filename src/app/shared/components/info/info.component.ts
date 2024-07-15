@@ -7,5 +7,5 @@ import { Component, Input } from "@angular/core";
 })
 export class InfoComponent {
   @Input() title!: string;
-  @Input() text?: string;
+  @Input() text!: string;
 }
