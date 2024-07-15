@@ -1,0 +1,18 @@
+<div class="course-info">
+  <h1>{{ title }}</h1>
+  <div class="course-info__details">
+    <div class="course-info__description">
+      <h2>Description:</h2>
+      <p>{{ description }}</p>
+    </div>
+    <div class="course-info__meta">
+      <div><strong>ID:</strong> {{ id }}</div>
+      <div><strong>Duration:</strong> {{ duration }} hours</div>
+      <div>
+        <strong>Created:</strong> {{ creationDate | date : "dd.MM.yyyy" }}
+      </div>
+      <div><strong>Authors:</strong> {{ authors.join(", ") }}</div>
+    </div>
+  </div>
+  <app-button text="BACK" (click)="goBack()"></app-button>
+</div>

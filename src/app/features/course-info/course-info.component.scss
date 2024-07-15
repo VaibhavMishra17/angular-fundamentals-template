@@ -1,0 +1,39 @@
+.course-info {
+  padding: 32px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    margin-bottom: 16px;
+  }
+
+  .course-info__details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+
+    &__description {
+      flex: 2;
+      padding-right: 16px;
+
+      h2 {
+        margin-bottom: 8px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &__meta {
+      flex: 1;
+      padding-left: 16px;
+      border-left: 1px solid #e9ecef;
+
+      div {
+        margin-bottom: 8px;
+      }
+    }
+  }
+}

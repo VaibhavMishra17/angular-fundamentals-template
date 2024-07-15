@@ -1,100 +1,46 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  combineLatest,
-  filter,
-  forkJoin,
-  map,
-  Observable,
-  Subject,
-  Subscription,
-  switchMap,
-  debounceTime,
-} from "rxjs";
-import { MockDataService } from "./mock-data.service";
+import { Component, OnInit } from "@angular/core";
+import { mockedAuthorsList, mockedCoursesList } from "./shared/mocks/mock";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  searchTermByCharacters = new Subject<string>();
-  charactersResults$!: Observable<any>;
-  planetAndCharactersResults$!: Observable<any>;
-  isLoading: boolean = false;
-  subscriptions: Subscription[] = [];
+export class AppComponent implements OnInit {
+  isLoggedIn = false;
+  username = "Harry Potter";
+  courses: any[] = [];
+  selectedCourse: any = null;
 
-  constructor(private mockDataService: MockDataService) {}
-
-  ngOnInit(): void {
-    this.initLoadingState();
-    this.initCharacterEvents();
+  ngOnInit() {
+    this.courses = mockedCoursesList.map((course) => {
+      return {
+        ...course,
+        authors: course.authors.map(
+          (authorId) =>
+            mockedAuthorsList.find((author) => author.id === authorId)?.name
+        ),
+      };
+    });
   }
 
-  changeCharactersInput(element: any): void {
-    // 1.1. Add functionality to changeCharactersInput method. Changes searchTermByCharacters Subject value on input change.
-    const inputValue: string = element.target.value;
-    // YOUR CODE STARTS HERE
-    this.searchTermByCharacters.next(inputValue);
-    // YOUR CODE ENDS HERE
+  login() {
+    this.isLoggedIn = true;
   }
 
-  initCharacterEvents(): void {
-    // 1.2. Add API call on each user input. Use mockDataService.getCharacters - to make get request.
-
-    // 2. Since we don't want to spam our service add filter by input value and do not call API until a user enters at least 3 chars.
-
-    // 3. Add debounce to prevent API calls until user stop typing.
-
-    this.charactersResults$ = this.searchTermByCharacters.pipe(
-      // YOUR CODE STARTS HERE
-      filter((term) => term.length >= 3),
-      debounceTime(300),
-      switchMap((term) => this.mockDataService.getCharacters(term))
-      // YOUR CODE ENDS HERE
-    );
+  logout() {
+    this.isLoggedIn = false;
   }
 
-  loadCharactersAndPlanet(): void {
-    // 4. On clicking the button 'Load Characters And Planets', it is necessary to process two requests and combine the results of both requests into one result array. As a result, a list with the names of the characters and the names of the planets is displayed on the screen.
-    // Your code should looks like this: this.planetAndCharactersResults$ = /* Your code */
-    // YOUR CODE STARTS HERE
-    this.planetAndCharactersResults$ = forkJoin([
-      this.mockDataService.getCharacters(),
-      this.mockDataService.getPlanets(),
-    ]).pipe(map(([characters, planets]) => [...characters, ...planets]));
-    // YOUR CODE ENDS HERE
+  handleShowCourse(course: any) {
+    this.selectedCourse = course;
   }
 
-  initLoadingState(): void {
-    /* 5.1. Let's add loader logic to our page. For each request, we have an observable that contains the state of the request. When we send a request the value is true, when the request is completed, the value becomes false. You can get value data with mockDataService.getCharactersLoader() and mockDataService.getPlanetLoader().
-
-    - Combine the value of each of the streams.
-    - Subscribe to changes
-    - Check the received value using the areAllValuesTrue function and pass them to the isLoading variable. */
-    // YOUR CODE STARTS HERE
-    const characterLoader$ = this.mockDataService.getCharactersLoader();
-    const planetLoader$ = this.mockDataService.getPlanetLoader();
-
-    const combinedLoader$ = combineLatest([
-      characterLoader$,
-      planetLoader$,
-    ]).pipe(map((loaders) => this.areAllValuesTrue(loaders)));
-
-    this.subscriptions.push(
-      combinedLoader$.subscribe((isLoading) => (this.isLoading = isLoading))
-    );
-    // YOUR CODE ENDS HERE
+  handleEditCourse(course: any) {
+    console.log("Edit Course:", course);
   }
 
-  ngOnDestroy(): void {
-    // 5.2 Unsubscribe from all subscriptions
-    // YOUR CODE STARTS HERE
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-    // YOUR CODE ENDS HERE
-  }
-
-  areAllValuesTrue(elements: boolean[]): boolean {
-    return elements.every((el) => el);
+  handleDeleteCourse(course: any) {
+    console.log("Delete Course:", course);
   }
 }
