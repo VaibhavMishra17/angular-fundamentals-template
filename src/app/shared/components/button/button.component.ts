@@ -11,6 +11,7 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 export class ButtonComponent {
   @Input() text?: string;
   @Input() icon?: IconName; // Update the type to IconName
+  @Input() type: "button" | "submit" | "reset" = "button";
 
   constructor(library: FaIconLibrary) {
     library.addIcons(faTrash, faPen, faPlay); // Add more icons as needed
