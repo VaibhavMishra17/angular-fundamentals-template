@@ -1,32 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
-body {
-    padding: 10% 20%;
+.eye-icon {
+    position: absolute;
+    top: 28px;
+    right: 10px;
+    color: #bdbdbd;
 }
 
-input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    margin-bottom: 16px;
+.text-field {
+    &__label {
+        display: block;
+        font-weight: 700;
+    }
+
+    &__input {
+        display: block;
+        padding: 0.375rem 0.75rem;
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #bdbdbd;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+        &__error {
+            border-color: red;
+        }
+    }
 }
 
-* {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-    background-color: #4caf50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+.log_reg {
     cursor: pointer;
-    width: 100%;
-    margin: 8px 0;
-    border-radius: 4px;
 }

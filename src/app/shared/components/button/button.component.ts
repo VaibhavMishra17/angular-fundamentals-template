@@ -1,19 +1,34 @@
-import { Component, Input } from "@angular/core";
-import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
-import { faTrash, faPen, faPlay } from "@fortawesome/free-solid-svg-icons";
-import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { IconName } from '@features/enums/iconName.enum';
 
 @Component({
-  selector: "app-button",
-  templateUrl: "./button.component.html",
-  styleUrls: ["./button.component.scss"],
+  selector: 'app-button',
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
-  @Input() text?: string;
-  @Input() icon?: IconName; // Update the type to IconName
-  @Input() type: "button" | "submit" | "reset" = "button";
-
   constructor(library: FaIconLibrary) {
-    library.addIcons(faTrash, faPen, faPlay); // Add more icons as needed
+    library.addIconPacks(fas);
+  }
+
+  @Input() buttonText: string = 'show course-info';
+  @Input() iconName!: IconName;
+
+  @Input()
+  typeName!: string;
+
+  @Input()
+  disabled?: boolean;
+
+  @Output()
+  click: EventEmitter<void> = new EventEmitter();
+
+  iconEnum: typeof IconName = IconName;
+
+  onClick(event: any): void {
+    event.stopPropagation();
+    this.click.emit();
   }
 }

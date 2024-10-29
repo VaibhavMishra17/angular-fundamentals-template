@@ -1,18 +1,18 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe } from "@angular/core";
 
 @Pipe({
-  name: "duration",
+    name: 'duration'
 })
-export class DurationPipe implements PipeTransform {
-  transform(value: number): string {
-    if (value == null || value < 0) return "00:00 hours";
+export class DurationPipe {
+    transform(value?: number): string {
+        if (value) {
+            const hours = Math.floor(value / 60);
+            const minutes = value % 60;
 
-    const hours = Math.floor(value / 60);
-    const minutes = value % 60;
+            return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes} hours`;
 
-    const formattedHours = hours < 10 ? `0${hours}` : hours;
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        }
 
-    return `${formattedHours}:${formattedMinutes} hours`;
-  }
+        return '';
+    }
 }

@@ -5,5 +5,11 @@
 
   & input {
     margin-right: 24px;
+    width: 100%;
+  }
+
+  &-form {
+    display: flex;
+    width: 100%;
   }
 }

@@ -1,66 +1,35 @@
 <h2 class="text-align-center">Login</h2>
 <div class="app-plate">
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+  <form #loginForm="ngForm" validate (ngSubmit)="loginForm.form.valid && login(loginForm)">
     <div class="login-form">
       <div>
         <div class="form__control">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Input text"
-            [(ngModel)]="email"
-            required
-            emailValidator
-            #emailCtrl="ngModel"
-          />
-          <span
-            *ngIf="
-              emailCtrl.invalid &&
-              (emailCtrl.dirty || emailCtrl.touched || loginForm.submitted)
-            "
-            class="text-danger"
-          >
-            Email is required and should be valid.
+          <label for="email" class="text-field__label">Email</label>
+          <input type="text" #email="ngModel" [(ngModel)]="loginFormData.email" id="email" name="email"
+            placeholder="Input text" class="text-field__input"
+            [class.text-field__input__error]="(email.touched || loginForm.submitted) && email.errors?.['emailValidator']"
+            emailValidator required />
+          <span id="emailErrorMessage" class="text-danger" *ngIf="(email.touched || loginForm.submitted) && email.errors?.['emailValidator']">
+            Email is required.
           </span>
         </div>
         <div class="form__control">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Input text"
-            [(ngModel)]="password"
-            required
-            #passwordCtrl="ngModel"
-          />
-          <fa-icon
-            [icon]="togglePassword.shown ? 'eye' : 'eye-slash'"
-            appTogglePassword
-            #togglePassword="togglePassword"
-          ></fa-icon>
-
-          <span
-            *ngIf="
-              passwordCtrl.invalid &&
-              (passwordCtrl.dirty ||
-                passwordCtrl.touched ||
-                loginForm.submitted)
-            "
-            class="text-danger"
-          >
+          <label for="password" class="text-field__label">Password</label>
+          <input type="password" #password="ngModel" [(ngModel)]="loginFormData.password" id="password" name="password"
+            placeholder="Input text" class="text-field__input"
+            [class.text-field__input__error]="(password.touched || loginForm.submitted) && password.errors?.['required']"
+            required />
+          <span id="passwordErrorMessage" class="text-danger" *ngIf="(password.touched || loginForm.submitted) && password.errors?.['required']">
             Password is required.
           </span>
         </div>
       </div>
       <div>
         <div class="form__action">
-          <app-button text="LOGIN" type="submit"></app-button>
+          <app-button id="submit" buttonText="login" typeName="submit"></app-button>
         </div>
         <div class="form__text">
-          If you don't have an account you may <strong>Registration</strong>
+          If you don't have an account you may <strong class="log_reg" (click)="goToRegistartion()">Registration</strong>
         </div>
       </div>
     </div>

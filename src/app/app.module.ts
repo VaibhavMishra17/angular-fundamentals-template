@@ -1,47 +1,51 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { AppComponent } from "./app.component";
-import { HeaderComponent } from "./shared/components/header/header.component";
-import {
-  FontAwesomeModule,
-  FaIconLibrary,
-} from "@fortawesome/angular-fontawesome";
-import { CoursesModule } from "./features/courses/courses.module";
-import { LoginFormComponent } from "./shared/components/login-form/login-form.component";
-import { SharedModule } from "./shared/shared.module";
-import {
-  faSignInAlt,
-  faSignOutAlt,
-  faPen,
-  faTrash,
-  faPlay,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RegistrationFormComponent } from "./shared/components/registration-form/registration-form.component";
-import { CourseFormComponent } from "./shared/components/course-form/course-form.component";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RegistrationFormModule } from '@shared/components/registration-form/registration-form.module';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { SharedModule } from '@shared/shared.module';
+import { AppComponent } from '@app/app.component';
+import { CoursesStoreService } from '@app/services/courses-store.service';
+import { CoursesModule } from '@features/courses/courses.module';
+import { CoursesService } from '@app/services/courses.service';
+import { LoginFormModule } from '@shared/components/login-form/login-form.module';
+import { AuthModule } from '@app/auth/auth.module';
+import { UserModule } from '@app/user/user.module';
+import { TokenInterceptor } from '@app/auth/interceptors/token.interceptor';
+import { AuthorizedGuard } from '@app/auth/guards/authorized.guard';
+import { NotAuthorizedGuard } from '@app/auth/guards/not-authorized.guard';
+import { StoreModule } from '@ngrx/store';
+import { effects, reducers } from '@app/store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    LoginFormComponent,
-    RegistrationFormComponent,
-    CourseFormComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
     CoursesModule,
+    LoginFormModule,
+    RegistrationFormModule,
+    AppRoutingModule,
     SharedModule,
-    FontAwesomeModule,
-    FormsModule,
+    AuthModule,
+    UserModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
   ],
-  providers: [],
+  providers: [
+    AuthorizedGuard,
+    NotAuthorizedGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    CoursesService,
+    CoursesStoreService,
+  ],
   bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class AppModule {
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faSignInAlt, faSignOutAlt, faPen, faTrash, faPlay, faPlus);
-  }
-}
+export class AppModule { }

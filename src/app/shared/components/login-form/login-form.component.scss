@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/styles.scss";
+@import 'src/app/shared/styles/styles.scss';
 
 .login-form {
   width: 260px;
@@ -6,38 +6,4 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.text-align-center {
-  text-align: center;
-}
-
-.app-plate {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form__control {
-  display: flex;
-  flex-direction: column;
-}
-
-.form__control input {
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form__action {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.text-danger {
-  color: red;
-  font-size: 12px;
 }

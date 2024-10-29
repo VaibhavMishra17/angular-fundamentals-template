@@ -1,5 +1,16 @@
-<app-search
-  placeholder="Search courses..."
-  (search)="onSearch($event)"
-></app-search>
-<app-courses-list></app-courses-list>
+<div class="search_container">
+  <app-search placeholder="Input text" (search)="search($event)"></app-search>
+<ng-container *ngIf="isAdmin">
+    <app-button buttonText="add course" (click)="addCourse()"></app-button>
+</ng-container>
+</div>
+
+<app-course-list
+  [courses]="courses"
+  [editable]="isAdmin"
+  (deleteCourse)="deleteItem($event)"
+  (editCourse)="editItem($event)">
+</app-course-list>
+
+<app-modal [(isVisible)]="isShowConfirmModal" (confirm)="confirmedDelete()" cancelButtonText="Cancel"
+    message="Are you sure?" okButtonText="Ok" [title]="'Delete course-info: ' + deletedId"></app-modal>

@@ -1,4 +1,23 @@
-<div class="app-button" [ngClass]="{ 'app-button--icon-only': !text }">
-  <fa-icon *ngIf="icon" [icon]="['fas', icon]"></fa-icon>
-  <span *ngIf="text">{{ text }}</span>
-</div>
+<button
+  *ngIf="!iconName; else icon"
+  class="app-button app-button-type"
+  (click)="onClick($event)"
+  [attr.type]="typeName"
+  [disabled]="disabled"
+>
+  {{buttonText}}
+</button>
+<ng-template #icon>
+  <button class="app-button" (click)="onClick($event)">
+    <ng-container [ngSwitch]="iconName">
+      <ng-container *ngSwitchCase="iconEnum.pencilAlt">
+        <fa-icon class="icon" icon="pencil-alt">
+        </fa-icon>
+      </ng-container>
+      <ng-container *ngSwitchCase="iconEnum.delete">
+        <fa-icon class="icon" icon="trash">
+        </fa-icon>
+      </ng-container>
+    </ng-container>
+  </button>
+</ng-template>

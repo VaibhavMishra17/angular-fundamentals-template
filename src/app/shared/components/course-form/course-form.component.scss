@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/styles";
+@import 'src/app/shared/styles/styles';
 
 .course {
   min-width: 60vw;
@@ -24,9 +24,23 @@
   &__authors {
     margin-top: 8px;
     display: flex;
+    flex-direction: column;
+
+    &-list {
+      display: flex;
+      margin-top: 10px;
+    }
 
     &-item {
       margin-right: 10px;
+    }
+  }
+
+  &__author {
+    &-cross {
+      border: none;
+      background: none;
+      cursor: pointer;
     }
   }
 

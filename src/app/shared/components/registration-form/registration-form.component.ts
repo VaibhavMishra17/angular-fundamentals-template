@@ -1,52 +1,40 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { customEmailValidator } from "@app/shared/validators/email.validator";
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
+import { IconName } from '@features/enums/iconName.enum';
+import { AuthService } from '@app/auth/services/auth.service';
 
 @Component({
-  selector: "app-registration-form",
-  templateUrl: "./registration-form.component.html",
-  styleUrls: ["./registration-form.component.scss"],
+  selector: 'app-registration-form',
+  templateUrl: './registration-form.component.html',
+  styleUrls: ['./registration-form.component.scss'],
 })
-export class RegistrationFormComponent implements OnInit {
-  registrationForm!: FormGroup;
+export class RegistrationFormComponent {
+  registrationForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  });
 
-  constructor(private fb: FormBuilder) {}
+  iconEnum: typeof IconName = IconName;
 
-  ngOnInit(): void {
-    this.registrationForm = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(6)]],
-      email: ["", [Validators.required, customEmailValidator()]],
-      password: ["", [Validators.required, Validators.minLength(6)]],
-    });
+  constructor(library: FaIconLibrary, private auth: AuthService, private router: Router) {
+    library.addIconPacks(fas);
   }
 
-  onSubmit(): void {
-    if (this.registrationForm.valid) {
-      // Handle the form submission
-      console.log("Form Submitted!", this.registrationForm.value);
+  registrate(form: any): void {
+    if (this.registrationForm.invalid) {
+      this.registrationForm.markAllAsTouched();
     } else {
-      this.markFormGroupTouched(this.registrationForm);
+      this.auth.register(form.value).subscribe(() => {
+        this.router.navigate(['/login']);
+      });
     }
   }
 
-  markFormGroupTouched(formGroup: FormGroup) {
-    (Object as any).values(formGroup.controls).forEach((control: any) => {
-      control.markAsTouched();
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
-  }
-
-  get name() {
-    return this.registrationForm.get("name");
-  }
-
-  get email() {
-    return this.registrationForm.get("email");
-  }
-
-  get password() {
-    return this.registrationForm.get("password");
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
 }

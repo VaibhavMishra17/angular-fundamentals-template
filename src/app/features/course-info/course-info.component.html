@@ -1,16 +1,15 @@
+<div class="title">{{course?.title}}</div>
 <div class="course-info">
-  <h1>{{ title }}</h1>
-  <div class="course-info__details">
-    <div class="course-info__description">
-      <h2>Description:</h2>
-      <p>{{ description }}</p>
-    </div>
-    <div class="course-info__meta">
-      <div><strong>ID:</strong> {{ id }}</div>
-      <div><strong>Duration:</strong> {{ duration | duration }} hours</div>
-      <div><strong>Created:</strong> {{ creationDate | customDate }}</div>
-      <div><strong>Authors:</strong> {{ authors.join(", ") }}</div>
-    </div>
+  <div class="course-info__description">
+    {{course?.description}}
   </div>
-  <app-button text="BACK" (click)="goBack()"></app-button>
+  <div class="course-info__info">
+    <div><b>ID: </b><span class="course-info__info-id">{{course?.id}}</span></div>
+    <div><b>Duration: </b><span class="course-info__info-duration">{{course?.duration}}</span></div>
+    <div><b>Created: </b><span class="course-info__info-date">{{(course?.creationDate || '')}}</span></div>
+    <div><b>Authors: </b><span class="course-info__info-authors">{{course?.authors}}</span></div>
+  </div>
+</div>
+<div class="navigation-block">
+  <app-button buttonText="go back" (click)="goBack()"></app-button>
 </div>

@@ -1,29 +1,23 @@
 <div class="course-card">
   <div class="course-card__description">
-    <div class="course-card__description-title">{{ title }}</div>
-    <div class="course-card__description-text">{{ description }}</div>
+    <div class="course-card__description-title">{{cardData.title}}</div>
+    <div class="course-card__description-text">{{cardData.description}}</div>
   </div>
   <div class="course-card__info">
     <div class="course-card__info-text">
       <div>
         <b>Authors: </b>
-        {{ authors.join(", ") }}
+        <span *ngFor="let author of cardData.authors">
+          {{author}}
+        </span>
       </div>
-      <div>
-        <b>Duration: </b
-        ><span class="course-card__duration"
-          >{{ duration | duration }} hours</span
-        >
-      </div>
-      <div>
-        <b>Created: </b
-        ><span class="course-card__date">{{ creationDate | customDate }}</span>
-      </div>
+      <div><b>Duration: </b><span class="course-card__duration">{{cardData.duration }}</span></div>
+      <div><b>Created: </b><span class="course-card__date">{{cardData.creationDate }}</span></div>
     </div>
     <div class="course-card__info-actions">
-      <app-button text="SHOW COURSE" (click)="onShowCourse()"></app-button>
-      <div class="course-card__buttons">
-        <ng-content></ng-content>
+      <app-button (click)="clickOnShowHandler()"></app-button>
+      <div class="course-card__buttons" *ngIf="editable">
+        <ng-content select="edit-buttons"></ng-content>
       </div>
     </div>
   </div>

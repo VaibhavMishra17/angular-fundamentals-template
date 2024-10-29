@@ -1,42 +1,16 @@
 <app-header>
-  <div *ngIf="isLoggedIn" class="d-flex align-items-center">
-    <span>{{ username }}</span>
-    <app-button
-      text="LOGOUT"
-      icon="sign-out-alt"
-      (click)="logout()"
-    ></app-button>
-  </div>
+  <div>{{ userName }}</div>
   <app-button
-    *ngIf="!isLoggedIn"
-    text="LOGIN"
-    icon="sign-in-alt"
-    (click)="login()"
+    buttonText="Sign up"
+    (click)="singUp()"
+    *ngIf="!isAuthorized"
+  ></app-button>
+  <app-button
+    buttonText="Logout"
+    (click)="logout()"
+    *ngIf="isAuthorized"
   ></app-button>
 </app-header>
-<div class="container">
-  <app-info
-    title="Your List Is Empty"
-    text="Please use 'Add New Course' button to add your first course"
-    *ngIf="courses.length === 0"
-  >
-    <app-button text="ADD NEW COURSE" icon="plus"></app-button>
-  </app-info>
-  <app-courses-list
-    *ngIf="courses.length > 0"
-    [courses]="courses"
-    [editable]="true"
-    (showCourse)="handleShowCourse($event)"
-    (editCourse)="handleEditCourse($event)"
-    (deleteCourse)="handleDeleteCourse($event)"
-  ></app-courses-list>
-  <app-course-info
-    *ngIf="selectedCourse"
-    [title]="selectedCourse.title"
-    [description]="selectedCourse.description"
-    [id]="selectedCourse.id"
-    [creationDate]="selectedCourse.creationDate"
-    [duration]="selectedCourse.duration"
-    [authors]="selectedCourse.authors"
-  ></app-course-info>
+<div class="wrapper">
+  <router-outlet></router-outlet>
 </div>

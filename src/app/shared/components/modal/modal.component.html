@@ -1,0 +1,21 @@
+<ng-container *ngIf="isVisible">
+    <div class="modal__backdrop">
+        <div class="modal__container">
+            <div class="modal__title">
+                <div>{{title}}</div>
+                <div class="modal__icon">
+                    <fa-icon [icon]="['fas','xmark']" (click)="onCancel()"></fa-icon>
+                </div>
+            </div>
+            <div class="modal__message">{{message}}</div>
+            <div class="modal__actions">
+                <div class="modal__btn">
+                    <app-button [buttonText]="okButtonText" (click)="onConfirm()"></app-button>
+                </div>
+                <div class="modal__btn">
+                    <app-button [buttonText]="cancelButtonText" (click)="onCancel()"></app-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

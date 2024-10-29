@@ -1,24 +1,12 @@
 import { Directive } from "@angular/core";
-import {
-  NG_VALIDATORS,
-  Validator,
-  AbstractControl,
-  ValidationErrors,
-} from "@angular/forms";
-import { customEmailValidator } from "../validators/email.validator";
+import { AbstractControl, NG_VALIDATORS, Validator } from "@angular/forms";
 
 @Directive({
-  selector: "[emailValidator]",
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: EmailValidatorDirective,
-      multi: true,
-    },
-  ],
+    selector: '[emailValidator]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true }]
 })
 export class EmailValidatorDirective implements Validator {
-  validate(control: AbstractControl): ValidationErrors | null {
-    return customEmailValidator()(control);
-  }
+    validate(control: AbstractControl<any, any>): { [key: string]: any } | null {
+        return !control?.value?.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/) ? { 'emailValidator': true } : null;
+    }
 }
